@@ -89,7 +89,7 @@ sudo chown root:  /opt/chef-repo/testlink.json
 sudo /usr/bin/chef-solo -c /opt/chef-repo/solo.rb -j /opt/chef-repo/testlink.json
 ```
 
-* Enable default site and reload apache2
+* Enabling default site and reload apache2
 ``` bash
 sudo a2ensite 000-default.conf && sudo a2enmod headers && sudo service apache2 reload
 ```
