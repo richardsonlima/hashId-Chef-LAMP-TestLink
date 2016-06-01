@@ -64,4 +64,4 @@ echo -e "\033[1;34m [+] See service status \033[m";
 ps -ef | grep apache |grep -v grep && ps -ef|grep mysql|grep -v grep
 
 echo -e "\033[1;34m [+] Accessing Apache Web Interface \033[m";
-lynx http://localhost/index.php
+lynx http://localhost/testlink
