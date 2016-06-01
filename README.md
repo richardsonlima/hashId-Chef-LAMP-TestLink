@@ -1,10 +1,14 @@
 * HowTo
 ------------
-* Cookbook install and configure: Apache2 + PHP5 + MySQL5 + Testlink Open Source Test Management
-( http://testlink.org/ )
+* Cookbook install and configure:
+* Apache2 + PHP5 + MySQL5 + Testlink Open Source Test Management - http://testlink.org
+
 * Test: Ubuntu Server 14.04.4 LTS
-* Database Name: webappdb (user: teamtestlink / pass: zwsIFHa3ZLd)
+* Database Name: testlink (user: testlink_usr / pass: m6w2msmV)
 * Root MySQL password: P11xhDNhs4hmw
+* App dir: /var/www/html/testlink
+
+
 
 chef-solo is an open source version of the chef-client that allows using cookbooks with nodes
 without requiring access to a Chef server.
