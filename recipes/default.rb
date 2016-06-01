@@ -47,7 +47,7 @@ package "apache2-mpm-prefork" do
 action :install
 end
 
-app_dir = "/var/www/testlink"
+app_dir = "/var/www/html/testlink"
 db = "testlink"
 db_pass = "m6w2msmV"
 db_user = "testlink_usr"
@@ -91,13 +91,17 @@ bash "install_mysql_server" do
   EOH
 end
 
-execute "Database creation and configuration" do
+bash "create_database" do
   user "root"
-  command "mysql -u root -pP11xhDNhs4hmw -e 'CREATE DATABASE if not exists #{db}' &&
-  mysql -u root -proot -e 'CREATE USER #{db_user}' &&
-  mysql -u root -proot -e 'GRANT SELECT, INSERT, UPDATE, DELETE on #{db}.* to #{db_user}@\"localhost\" identified by \"#{db_pass}\"' &&
-  mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql &&
-  mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql"
+  ignore_failure true
+  code <<-EOH
+    mysql -uroot -pP11xhDNhs4hmw -e "create database webappdb;"
+    mysql -uroot -pP11xhDNhs4hmw -e "grant all privileges on webappdb.* to teamwebapp01@localhost identified by 'zwsIFHa3ZLd';"
+    mysql -u root -proot -e "CREATE USER #{db_user};"
+    mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE on #{db}.* to #{db_user}@\"localhost\" identified by \"#{db_pass}\" ;"
+    mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql &&
+    mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql"
+  EOH
 end
 
 cookbook_file "#{app_dir}/config_db.inc.php" do
