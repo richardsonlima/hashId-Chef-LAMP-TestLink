@@ -82,7 +82,6 @@ user "sysops" do
   system true
 end
 
-#mysql server usuario: root / senha: P11xhDNhs4hmw
 bash "install_mysql_server" do
   user "root"
   ignore_failure true
