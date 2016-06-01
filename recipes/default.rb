@@ -97,8 +97,8 @@ bash "create_database" do
     mysql -uroot -pP11xhDNhs4hmw -e "create database testlink;"
     mysql -u root -proot -e "CREATE USER #{db_user};"
     mysql -uroot -pP11xhDNhs4hmw -e "grant SELECT, INSERT, UPDATE, DELETE on testlink.* to testlink_usr@localhost identified by 'm6w2msmV';"
-    mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql &&
-    mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql
+    mysql -u root -pP11xhDNhs4hmw #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql
+    mysql -u root -pP11xhDNhs4hmw #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql
   EOH
 end
 
