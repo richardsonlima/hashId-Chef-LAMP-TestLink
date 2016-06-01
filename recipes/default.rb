@@ -61,19 +61,19 @@ end
 
 execute "File extraction and chown" do
   user "root"
-  command "tar -xzf /tmp/testlink-1.9.2.tar.gz -C #{app_dir} &&
-           chown -R root:root #{app_dir}/testlink-1.9.2"
+  command "tar -xzf /tmp/testlink-1.9.14.tar.gz -C #{app_dir} &&
+           chown -R root:root #{app_dir}/testlink-1.9.14"
 end
 execute "File moving" do
   user "root"
-  command "mv #{app_dir}/testlink-1.9.2/* #{app_dir}"
+  command "mv #{app_dir}/testlink-1.9.14/* #{app_dir}"
 end
 execute "Perm/access fixing" do
   user "root"
   command "chown -R root:root #{app_dir} &&
            chmod -R 777 #{app_dir}/upload_area &&
            chmod -R 777 #{app_dir}/logs &&
-           rm -rf #{app_dir}/testlink-1.9.2"
+           rm -rf #{app_dir}/testlink-1.9.14"
 end
 
 user "sysops" do
@@ -81,8 +81,6 @@ user "sysops" do
   gid "sudo"
   system true
 end
-
-######
 
 #mysql server usuario: root / senha: P11xhDNhs4hmw
 bash "install_mysql_server" do
@@ -183,30 +181,6 @@ cookbook_file "/var/www/html/info.php" do
   owner "www-data"
   group "www-data"
 end
-
-
-
-#service "webapp-01-server" do
-# action :start
-#end
-
-#bash "updaterc" do
-#  user "root"
-#  ignore_failure true
-#  code <<-EOH
-#   update-rc.d -f webapp-01-server defaults
-#  EOH
-#end
-
-#bash "create_dir_apache" do
-#  user "root"
-#  ignore_failure true
-#  code <<-EOH
-#   mkdir -p /var/www/html/webapp-01
-#   cp -a /srv/webapp-01/frontends/php/* /var/www/html/webapp-01/
-#   chown -R www-data:www-data /var/www/html/webapp-01/
-#  EOH
-#end
 
 bash "create_dir_apache" do
   user "root"
