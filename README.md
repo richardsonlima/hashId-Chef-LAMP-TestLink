@@ -91,7 +91,7 @@ sudo /usr/bin/chef-solo -c /opt/chef-repo/solo.rb -j /opt/chef-repo/testlink.jso
 
 * Enable default site and reload apache2
 ``` bash
-sudo a2ensite 000-default.conf && sudo service apache2 reload
+sudo a2ensite 000-default.conf && sudo a2enmod headers && sudo service apache2 reload
 ```
 
 * Status services
