@@ -95,10 +95,9 @@ bash "create_database" do
   user "root"
   ignore_failure true
   code <<-EOH
-    mysql -uroot -pP11xhDNhs4hmw -e "create database webappdb;"
-    mysql -uroot -pP11xhDNhs4hmw -e "grant all privileges on webappdb.* to teamwebapp01@localhost identified by 'zwsIFHa3ZLd';"
+    mysql -uroot -pP11xhDNhs4hmw -e "create database testlink;"
     mysql -u root -proot -e "CREATE USER #{db_user};"
-    mysql -u root -proot -e "GRANT SELECT, INSERT, UPDATE, DELETE on #{db}.* to #{db_user}@\"localhost\" identified by \"#{db_pass}\" ;"
+    mysql -uroot -pP11xhDNhs4hmw -e "grant SELECT, INSERT, UPDATE, DELETE on testlink.* to testlink_usr@localhost identified by 'm6w2msmV';"
     mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql &&
     mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql"
   EOH

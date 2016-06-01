@@ -61,8 +61,8 @@ sudo chown root:  /opt/chef-repo/testlink.json
 echo -e "\033[1;34m [+] Execute CHEF-SOLO \033[m";
 sudo /usr/bin/chef-solo -c /opt/chef-repo/solo.rb -j /opt/chef-repo/testlink.json
 
-#echo -e "\033[1;34m [+] Enabling default site end reload apache2 \033[m";
-#sudo a2ensite 000-default.conf && sudo service apache2 reload
+echo -e "\033[1;34m [+] Enabling default site end reload apache2 \033[m";
+sudo a2ensite 000-default.conf && a2enmod headers && sudo service apache2 reload
 
 echo -e "\033[1;34m [+] See service status \033[m";
 ps -ef | grep apache |grep -v grep && ps -ef|grep mysql|grep -v grep
