@@ -153,10 +153,6 @@ cookbook_file "/etc/apache2/conf-available/security.conf" do
   group "root"
 end
 
-apache_site "000-default.conf" do
-  enable true
-end
-
 service "apache2" do
  action :restart
 end
