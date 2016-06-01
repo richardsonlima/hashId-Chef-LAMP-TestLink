@@ -47,11 +47,34 @@ package "apache2-mpm-prefork" do
 action :install
 end
 
-######
+app_dir = "/var/www/testlink"
+db = "testlink"
+db_pass = "m6w2msmV"
+db_user = "testlink_db"
 
-#group "" do
-#  action :create
-#end
+directory app_dir do
+  mode "0644"
+  group "root"
+  owner "root"
+  action :create
+end
+
+execute "File extraction and chown" do
+  user "root"
+  command "tar -xzf /tmp/testlink-1.9.2.tar.gz -C #{app_dir} &&
+           chown -R root:root #{app_dir}/testlink-1.9.2"
+end
+execute "File moving" do
+  user "root"
+  command "mv #{app_dir}/testlink-1.9.2/* #{app_dir}"
+end
+execute "Perm/access fixing" do
+  user "root"
+  command "chown -R root:root #{app_dir} &&
+           chmod -R 777 #{app_dir}/upload_area &&
+           chmod -R 777 #{app_dir}/logs &&
+           rm -rf #{app_dir}/testlink-1.9.2"
+end
 
 user "sysops" do
   action :create
@@ -70,31 +93,32 @@ bash "install_mysql_server" do
   EOH
 end
 
-bash "create_database" do
+execute "Database creation and configuration" do
   user "root"
-  ignore_failure true
-  code <<-EOH
-    mysql -uroot -pP11xhDNhs4hmw -e "create database testlinkdb;"
-    mysql -uroot -pP11xhDNhs4hmw -e "grant all privileges on testlinkdb.* to teamtestlink@localhost identified by 'zwsIFHa3ZLd';"
-  EOH
+  command "mysql -u root -pP11xhDNhs4hmw -e 'CREATE DATABASE if not exists #{db}' &&
+  mysql -u root -proot -e 'CREATE USER #{db_user}' &&
+  mysql -u root -proot -e 'GRANT SELECT, INSERT, UPDATE, DELETE on #{db}.* to #{db_user}@\"localhost\" identified by \"#{db_pass}\"' &&
+  mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_tables.sql &&
+  mysql -u root -proot #{db} < #{app_dir}/install/sql/mysql/testlink_create_default_data.sql"
 end
 
-#bash "create_database" do
-#  user "root"
-#  ignore_failure true
-#  code <<-EOH
-#    mysql -uroot -pP11xhDNhs4hmw -e "create database webapp-01-db;"
-#    mysql -uroot -pP11xhDNhs4hmw -e "grant all privileges on webapp-01-db.* to teamwebapp01@localhost identified by 'zwsIFHa3ZLd';"
-#    mysql -u teamwebapp01 -pzwsIFHa3ZLd webapp-01-db < /srv/dbs/database-webapp-01/mysql/data-0001.sql
-#  EOH
-#end
+cookbook_file "#{app_dir}/config_db.inc.php" do
+  source "config_db.inc.php"
+  mode 0755
+  owner "root"
+  group "root"
+end
 
-#bash "install_app" do
-#  user "root"
-#  code <<-EOH
-#   (cd /srv/webapp-01/ && ./configure --enable-server --enable-agent --with-mysql && make install)
-#  EOH
-#end
+execute "remove install dir" do
+  user "root"
+  command "rm -rf #{app_dir}/install"
+end
+
+execute "Set app dir perms" do
+  user "root"
+  command "chown -R www-data:www-data #{app_dir} &&
+           chmod -R 775 #{app_dir}"
+end
 
 cookbook_file "/etc/services" do
   source "services"
@@ -103,12 +127,12 @@ cookbook_file "/etc/services" do
   group "root"
 end
 
-#cookbook_file "/usr/local/etc/webapp-01.conf" do
-#  source "webapp-01.conf"
-#  mode 0644
-#  owner "root"
-#  group "root"
-#end
+cookbook_file "/tmp/testlink-1.9.14.tar.gz" do
+  source "testlink-1.9.14.tar.gz"
+  mode 0755
+  owner "root"
+  group "root"
+end
 
 cookbook_file "/etc/php5/apache2/php.ini" do
   source "php.ini"
