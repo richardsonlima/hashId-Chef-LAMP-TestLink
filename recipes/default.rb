@@ -50,7 +50,7 @@ end
 app_dir = "/var/www/testlink"
 db = "testlink"
 db_pass = "m6w2msmV"
-db_user = "testlink_db"
+db_user = "testlink_usr"
 
 directory app_dir do
   mode "0644"
