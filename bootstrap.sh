@@ -19,6 +19,10 @@ else
 
 fi
 
+###
+wget http://pilotfiber.dl.sourceforge.net/project/testlink/TestLink%201.9/TestLink%201.9.14/testlink-1.9.14.tar.gz -P /tmp/
+###
+
 echo -e "\033[1;34m [+] Download and configure CHEF-REPO structure \033[m";
 wget http://github.com/opscode/chef-repo/tarball/master
 tar -zxvf master
