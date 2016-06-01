@@ -17,7 +17,7 @@ See this in action::
 
 - Auto install - Fully Automated LAMP with Chef Solo - Works fine :sunglasses:
 ------------
-curl -L https://raw.githubusercontent.com/richardsonlima/hashId-Chef-LAMP-TestLink/master/bootstrap.sh | sudo bash
+curl -L https://raw.githubusercontent.com/richardsonlima/hashId-Chef-LAMP-TestLink/master/bootstrap.sh | bash
 
 
 - HandsOn install - Fully Automated LAMP with Chef Solo - Works fine :sunglasses:
